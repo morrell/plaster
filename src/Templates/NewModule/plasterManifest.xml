@@ -2,8 +2,8 @@
 <plasterManifest schemaVersion="0.4" xmlns="http://www.microsoft.com/schemas/PowerShell/Plaster/v1">
     <metadata>
         <id>458e3497-ee7a-4fe2-a6ea-602966761043</id>
-        <name>VznModule</name>
-        <title>New Vizent Module</title>
+        <name>NewModule</name>
+        <title>New Module</title>
         <description>Scaffolds the files required for a PowerShell module.</description>
         <version>1.0.0</version>
         <tags>Module, ModuleManifest, Build</tags>
@@ -64,8 +64,6 @@
                       destination='' />
         <templateFile source='src\Module.psm1'
                       destination='src\${PLASTER_PARAM_ModuleName}.psm1'/>
-        <templateFile source='Jenkinsfile'
-                      destination='' />
         <file source='src\ExportedFunctions\Function.ps1'
               destination='src\ExportedFunctions\Function.ps1' />
         <file source='ScriptAnalyzerSettings.psd1'
