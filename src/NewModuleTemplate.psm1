@@ -3,6 +3,6 @@ function New-PlasterModule {
   param(
     $Path
   )
-  $TemplatePath = Join-Path $PSScriptRoot "Templates/VznModule"
+  $TemplatePath = Join-Path $PSScriptRoot "Templates/NewModule"
   Invoke-Plaster -TemplatePath $TemplatePath -DestinationPath $Path
 }
