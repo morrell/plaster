@@ -1,4 +1,4 @@
-function New-VznModule {
+function New-PlasterModule {
   [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSUseShouldProcessForStateChangingFunctions", "", Justification="Just creates files", Scope="Function")]
   param(
     $Path
