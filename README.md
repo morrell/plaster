@@ -31,9 +31,10 @@ Done /build 00:00:00.4994900
 Build succeeded. 8 tasks, 0 errors, 0 warnings 00:00:01.0869138
 ```
 
-## Import the module
-Now you can import the `NewModuleTemplate` module that generates new modules.
+# Creating a module
 
+## Import the NewModuleTemplate module
+Now you can import the `NewModuleTemplate` module that generates new modules.
 
 ```powershell
 Import-module .\Release\NewModuleTemplate\NewModuleTemplate.psd1
@@ -51,7 +52,9 @@ Run New-PlasterModule to generate a module. Provide a path to make a new folder 
 New-PlasterModule -Path MyModule
 ```
 
-## Initialize the repository
+## Initialize the a git repository
+This is required for publishing release notes based on commit history when packaing modules.
+
 ```bash
 cd MyModule
 git init
@@ -61,17 +64,88 @@ git commit -m "Initial commit"
 
 ## Build the new module
 ```powershell
-set-location MyModule
+Set-Location MyModule
 .\Invoke-Build.ps1 build
 ```
 
 ## Import the new module
 ```powershell
-Import-module .\Release\MyModule\MyModule.psd1
+Import-Module .\Release\MyModule\MyModule.psd1
 ```
 
+# Developing a module
 
+## Writing functions
+Module functions are kept in single files inside of `src/ExportedFunctions/`
+```
+./src/ExportedFunctions/new-thing.ps1
+./src/ExportedFunctions/get-thing.ps1
+./src/ExportedFunctions/remove-thing.ps1
+./src/ExportedFunctions/invoke-thing.ps1
+```
 
+They should contain only the function itself and the helper description of a function.
+```powershell
+<#
+.SYNOPSIS
+Gets a thing.
 
+.DESCRIPTION
+Get a thing by name.
 
+.PARAMETER Name
+Name of thing
 
+.INPUTS
+[String] Name.
+
+.OUTPUTS
+[Object] A thing object.
+
+.EXAMPLE
+Get-Thing thing1
+
+Gets thing1.
+
+.EXAMPLE
+Get-Thing thing1,thing2
+
+Gets thing1 and thing2.
+
+.EXAMPLE
+@("thing1","thing2","thing3") | Get-Thing
+
+Gets things from pipeline input.
+#>
+Function Get-Thing{
+    Param(
+        [Parameter(ValueFromPipeline=$true)]
+        [string[]]$Name
+    )
+    Process
+    {
+        $Thing | ForEach-Object {
+            $T = Get-Things | Where-Object {$_.Name -eq $Name}
+            return $T
+        }
+    }
+}
+```
+It's a really good practice to write relevant and helpful cmdlet documentation.
+
+It's also a good practice to specifically name the functions you're exporting in the psd1 file for the module.
+
+```powershell
+# Functions to export from this module, for best performance, do not use wildcards and do not delete the entry, use an empty array if there are no functions to export.
+FunctionsToExport = @(
+    'new-thing',
+    'get-thing',
+    'remove-thing'
+)
+```
+
+## Testing a module
+
+You can write pester tests and keep them in the `./test/` folder.
+
+More info on pester testing later...
