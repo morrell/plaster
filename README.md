@@ -37,7 +37,8 @@ Build succeeded. 8 tasks, 0 errors, 0 warnings 00:00:01.0869138
 Now you can import the `NewModuleTemplate` module that generates new modules.
 
 ```powershell
-Import-module .\Release\NewModuleTemplate\NewModuleTemplate.psd1
+Set-Location .\Release\NewModuleTemplate
+Import-module .\NewModuleTemplate.psd1
 ```
 
 ## Generate a new module
